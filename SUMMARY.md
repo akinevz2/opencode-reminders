@@ -5,10 +5,12 @@
 Successfully created an OpenCode plugin named `opencode-reminders` with the following features:
 
 ### Tools
-1. **`add-reminder`** - Adds a reminder message to the persistent store and returns the full list of all reminders
+1. **`add-reminder`** - Adds a reminder message to the persistent store
    - Returns cumulative context automatically
-   - Stores reminders in JSONL format in the project root
+   - Supports `files` parameter for file-specific reminders
+   - Stores reminders in JSONL format in `memos.jsonl` with file metadata
    - Includes timestamps for each reminder
+   - Filters results by files when `files` parameter is provided
 
 ### Hooks
 1. **Context Hook** - Automatically includes all reminders in the agent's system context before completion

@@ -5,10 +5,11 @@ An OpenCode plugin for managing reminders across sessions using file-based stora
 ## Features
 
 - Add reminders that persist across OpenCode restarts
+- File-specific reminders: tag reminders with affected files for context-aware reminders
 - Reminders are stored as JSONL in the project root as `memos.jsonl`
-- The `add-reminder` tool returns the full list of all reminders
+- The `add-reminder` tool returns the full list of all reminders or filtered by files
 - A hook automatically includes reminders in the agent's context before completing tasks
-- No separate "get-reminders" tool needed—adding is the act of reading
+- No separate "get-reminders" tool needed—adding is reading
 
 ## Installation
 
@@ -53,6 +54,30 @@ When you call `add-reminder`, you'll receive the full list of all reminders:
 - Don't forget to update documentation (added: Mon Nov 2, 2026 02:37:00 PM)
 
 Reminder added: "Remember to review the PR"
+```
+
+### File-specific reminders
+
+Add reminders scoped to specific files for context-aware reminders:
+
+```
+# Add reminder for a specific file
+add-reminder "Check for security vulnerabilities" --files "src/auth.ts"
+
+# Add reminder for multiple files
+add-reminder "Update dependencies" --files "package.json" "tsconfig.json"
+
+# Add reminder without file scope (global reminder)
+add-reminder "Code review needed for PR"
+```
+
+The `files` parameter accepts an array of file paths relative to the project root. When requesting reminders, the tool will return reminders that match any of the specified files.
+
+**Storage format with file metadata:**
+
+```jsonl
+{"id":"reminder-1698768716123-abc","message":"Check for security","files":["src/auth.ts"],"createdAt":1698768716123}
+{"id":"reminder-1698768770456-def","message":"Update dependencies","files":["package.json","tsconfig.json"],"createdAt":1698768770456}
 ```
 
 ### Automatic context
